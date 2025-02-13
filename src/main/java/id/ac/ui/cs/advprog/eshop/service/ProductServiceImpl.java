@@ -22,10 +22,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public boolean deleteProduct(String id) {
+        return productRepository.deleteProduct(id);
+    }
+    @Override
     public List<Product> findAll() {
-        Iterator<Product> productIterator = productRepository.findAll();
-        List<Product> allProduct = new ArrayList<>();
-        productIterator.forEachRemaining((allProduct::add));
-        return allProduct;
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().forEachRemaining(products::add);
+        return products;
     }
 }
