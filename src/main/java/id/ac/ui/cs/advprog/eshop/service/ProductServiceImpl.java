@@ -22,10 +22,26 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product updateProduct(String id, Product updatedProduct) {
+        List<Product> products = findAll();
+        for (Product product : products) {
+            if (product.getProductId().equals(id)) {
+                product.setProductName(updatedProduct.getProductName());
+                product.setProductQuantity(updatedProduct.getProductQuantity());
+                return product; // Balikin produk yang sudah diupdate
+            }
+        }
+        throw new RuntimeException("Product not found");
+    }
+
+    @Override
+    public boolean deleteProduct(String id) {
+        return productRepository.deleteProduct(id);
+    }
+    @Override
     public List<Product> findAll() {
-        Iterator<Product> productIterator = productRepository.findAll();
-        List<Product> allProduct = new ArrayList<>();
-        productIterator.forEachRemaining((allProduct::add));
-        return allProduct;
+        List<Product> products = new ArrayList<>();
+        productRepository.findAll().forEachRemaining(products::add);
+        return products;
     }
 }
