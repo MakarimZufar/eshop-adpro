@@ -41,3 +41,28 @@ reflection 2
 
 4. ketika membuat functional test yang mirip dengan createProductFuntionalTest.java ada beberapa masalah yaitu seperti duplikasi kode yang membuat pemeliharaan lebih sulit, kurangnya sifat reusability. saran mungkin kita bisa menggunakan superclass yang berisi setup umum dan instance variable yang bisa digunakan untuk semua test suite 
 </details>
+
+<details>
+<summary>
+reflection 3
+</summary>
+isu kualitas kode yang diperbaiki dan strategi perbaikannya
+
+1. masalah cangkupan branch dalam metode updateProduct
+masalah: beberapa kondisi tidak diuji dalam test case, sehngga ada cabang kode yang tidak tercakup di laporan JaCoCo.
+solusi: menambahkan test case untuk skenario id atau updateProduct bernilai null, memastikan semua jalur eksekusi diuji
+2. penanganan input null dengan lebih baik
+masalah: metode updateProduct tidak menangani kasus di mana updateProduct atau id bernilai null, yang dapat menyebabkan NullPointerException saat runtime
+solusi: menambahkan validasi dan test case untuk memastihkan metode menangani null dengan melemparkan exception yang sesuai
+3. memastikan update di repository berjalan dengan benar
+masalah: test sebelumnya tidak memastikan apakah perubahan data (productName, productQuantity) benar-benar tersimpan di repository
+solusi: Memperluas test case untuk memverifikasi bahwa data dalam repository berubah setelah updateProduct dipanngil
+
+analisis CI/CD: apakah sudah memenuhi definisi continous integration dan continous deployment
+1. continous integration (CI)
+- sudah memenuhi pengujian otomatis, pipeline menjalankan unit test jUniit dan JaCoCo setiap perubahan code
+- terintegrasi dengan version Control yaitu github
+- penerapan standar kode yang ketat untuk memastikan kualitas code terjaga
+2. Continous deployment (CD)
+- otomatisasi Deployment sudah terpenuhi ketika kita melakukan push code yang sudah final ke main, akan langsung melakukan deployement ke koyeb
+</details>
