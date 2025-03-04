@@ -21,6 +21,7 @@ import java.util.List;
 import id.ac.ui.cs.advprog.eshop.model.Order;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
