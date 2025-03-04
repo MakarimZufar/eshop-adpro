@@ -6,6 +6,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
+import id.ac.ui.cs.advprog.eshop.enums.OrderStatus;
+
 class OrderTest {
     private List<Product> products;
 
@@ -60,20 +62,6 @@ class OrderTest {
         assertEquals("WAITING_PAYMENT", order.getStatus());
     }
 
-
-    @Test
-    void testCreateOrderSuccessStatus() {
-        Order order = new Order(
-                "13652556-012a-4c07-b546-54eb1396d79b",
-                this.products,
-                1708560000L,
-                "Safira Sudrajat",
-                "SUCCESS"
-        );
-
-        assertEquals("SUCCESS", order.getStatus());
-    }
-
     @Test
     void testCreateOrderInvalidStatus() {
         assertThrows(IllegalArgumentException.class, () -> {
@@ -111,5 +99,16 @@ class OrderTest {
 
         assertThrows(IllegalArgumentException.class, () -> order.setStatus("MEOW"));
     }
+    @Test
+    void testCreateOrderSuccessStatus() {
+        Order order = new Order(
+                "13652556-012a-4c07-b546-54eb1396d79b",
+                this.products,
+                1708560000L,
+                "Safira Sudrajat",
+                OrderStatus.SUCCESS.getValue()
+        );
 
+        assertEquals(OrderStatus.SUCCESS.getValue(), order.getStatus());
+    }
 }
