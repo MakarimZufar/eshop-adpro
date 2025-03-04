@@ -126,3 +126,30 @@ Jika melanggar ISP, setiap class akan terpaksa mengimplementasikan method yang t
 Jika melanggar DIP, kita tidak bisa melakukan unit testing dengan mudah karena semua kode saling terhubung secara langsung.
 
 </details>
+<details>
+<summary>
+modul 4 reflection 1
+</summary>
+
+1. evaluasi Kegunaan Alur TDD
+Berdasarkan Percival (2017), alur kerja TDD sangat bermanfaat dalam pengembangan yang telah dilakukan. Dengan mengikuti siklus Red-Green-Refactor, saya berhasil:
+
+   ✅ Menulis pengujian sebelum implementasi, memastikan setiap fitur diuji dengan baik.
+
+   ✅ Meningkatkan desain kode, menjadikannya lebih modular dan mudah dipelihara.
+
+   ✅ Menangkap bug lebih awal, sehingga dapat mencegah kesalahan sebelum kode dirilis.
+
+2. Evaluasi Pengujian Berdasarkan Prinsip FIRST
+
+   ✅ Fast (Cepat): Pengujian berjalan dengan cepat karena tidak bergantung pada layanan eksternal.
+
+   ✅ Independent (Independen): Setiap pengujian bersifat terisolasi dengan bantuan Mockito, sehingga tidak ada ketergantungan antar pengujian.
+
+   ✅ Repeatable (Dapat Diulang): Pengujian memberikan hasil yang konsisten di berbagai lingkungan.
+
+   ✅ Self-validating (Menghasilkan Validasi Otomatis): Setiap pengujian memiliki assert yang jelas, sehingga langsung menunjukkan hasil lulus/gagal tanpa perlu verifikasi manual.
+
+   ✅ Timely (Dilakukan Tepat Waktu): Pengujian dibuat sebelum implementasi sesuai prinsip TDD, sehingga memastikan kode hanya ditulis jika ada kebutuhan fungsional yang jelas.
+
+</details>
