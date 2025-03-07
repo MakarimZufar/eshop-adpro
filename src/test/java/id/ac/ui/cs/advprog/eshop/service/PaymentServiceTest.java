@@ -50,7 +50,7 @@ class PaymentServiceImplTest {
         when(paymentRepository.save(any(Payment.class)))
                 .thenAnswer(invocation -> invocation.getArgument(0));
 
-        Payment result = paymentService.addPayment(dummyOrder, "CreditCard", paymentData);
+        Payment result = paymentService.addPayment(dummyOrder, "Cash", paymentData);
 
         assertNotNull(result);
         assertNotNull(result.getPaymentId());
