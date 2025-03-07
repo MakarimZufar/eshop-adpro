@@ -17,8 +17,8 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
     @Override
-    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        String status = "PENDING"; // Default status
+public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
+        String status = "PENDING"; 
 
         if ("Cash on Delivery".equals(method)) {
             String voucherCode = paymentData.get("voucherCode");
@@ -27,6 +27,23 @@ public class PaymentServiceImpl implements PaymentService {
                     status = "SUCCESS";
                 } else {
                     status = "REJECTED";
+                }
+            }
+            else {
+                boolean hasAddress = paymentData.containsKey("address");
+                boolean hasFee = paymentData.containsKey("deliveryFee");
+
+                if (hasAddress || hasFee) {
+                    if (!hasAddress || !hasFee) {
+                        status = "REJECTED";
+                    } else {
+                        String address = paymentData.get("address");
+                        String fee = paymentData.get("deliveryFee");
+                        if (address == null || address.trim().isEmpty() ||
+                                fee == null || fee.trim().isEmpty()) {
+                            status = "REJECTED";
+                        }
+                    }
                 }
             }
         }
@@ -38,6 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .paymentStatus(status)
                 .linkOrder(order)
                 .build();
+
         return paymentRepository.save(payment);
     }
 
