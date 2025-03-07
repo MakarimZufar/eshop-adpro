@@ -11,9 +11,29 @@ public class PaymentRepository {
 
     private List<Payment> payments = new ArrayList<>();
 
-    public Payment save(Payment payment) {return null;}
+    public Payment save(Payment payment) {
+        // Jika payment dengan ID yang sama sudah ada, update; jika tidak, tambahkan baru.
+        for (int i = 0; i < payments.size(); i++) {
+            if (payments.get(i).getPaymentId().equals(payment.getPaymentId())) {
+                payments.set(i, payment);
+                return payment;
+            }
+        }
+        payments.add(payment);
+        return payment;
+    }
 
-    public Payment findById(String paymentId) {return null;}
+    public Payment findById(String paymentId) {
+        for (Payment payment : payments) {
+            if (payment.getPaymentId().equals(paymentId)) {
+                return payment;
+            }
+        }
+        return null;
+    }
 
-    public List<Payment> findAll() {return null;}
+    public List<Payment> findAll() {
+        return new ArrayList<>(payments);
+    }
 }
+
