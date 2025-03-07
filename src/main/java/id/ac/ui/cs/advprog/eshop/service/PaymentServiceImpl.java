@@ -17,7 +17,7 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
     @Override
-public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
+    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
         String status = "PENDING"; 
 
         if ("Cash on Delivery".equals(method)) {
@@ -45,6 +45,14 @@ public Payment addPayment(Order order, String method, Map<String, String> paymen
                         }
                     }
                 }
+            }
+        }
+        else if ("Bank Transfer".equals(method)) {
+            String bankName = paymentData.get("bankName");
+            String referenceCode = paymentData.get("referenceCode");
+            if (bankName == null || bankName.trim().isEmpty() ||
+                    referenceCode == null || referenceCode.trim().isEmpty()) {
+                status = "REJECTED";
             }
         }
 
@@ -85,7 +93,6 @@ public Payment addPayment(Order order, String method, Map<String, String> paymen
         if (voucherCode.length() != 16 && !voucherCode.startsWith("ESHOP")) {
             return false;
         }
-        // Ambil semua digit dari voucher code
         String digits = voucherCode.replaceAll("[^0-9]", "");
         return digits.length() == 8;
     }
