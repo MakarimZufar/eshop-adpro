@@ -17,14 +17,35 @@ public class PaymentServiceImpl implements PaymentService {
     private PaymentRepository paymentRepository;
 
     @Override
-    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {return null;}
+    public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
+        Payment payment = Payment.builder()
+                .paymentId(UUID.randomUUID().toString())
+                .paymentMethod(method)
+                .paymentData(paymentData)
+                .paymentStatus("PENDING")
+                .linkOrder(order)
+                .build();
+        return paymentRepository.save(payment);
+    }
 
     @Override
-    public Payment setStatus(Payment payment, String status) {return null;}
+    public Payment setStatus(Payment payment, String status) {
+        payment.setStatus(status);
+        if ("SUCCESS".equals(status)) {
+            payment.getLinkOrder().setStatus("SUCCESS");
+        } else if ("REJECTED".equals(status)) {
+            payment.getLinkOrder().setStatus("FAILED");
+        }
+        return paymentRepository.save(payment);
+    }
 
     @Override
-    public Payment getPayment(String paymentId) {return null;}
+    public Payment getPayment(String paymentId) {
+        return paymentRepository.findById(paymentId);
+    }
 
     @Override
-    public List<Payment> getAllPayments() {return null;}
+    public List<Payment> getAllPayments() {
+        return paymentRepository.findAll();
+    }
 }
