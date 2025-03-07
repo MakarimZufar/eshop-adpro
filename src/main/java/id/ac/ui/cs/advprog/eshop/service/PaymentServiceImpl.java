@@ -18,23 +18,19 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
-        String status = "PENDING"; 
+        String status = "PENDING"; // Default status
+
         if ("Cash on Delivery".equals(method)) {
             String voucherCode = paymentData.get("voucherCode");
             if (voucherCode != null) {
-                if (voucherCode.length() == 16 && voucherCode.startsWith("ESHOP")) {
-                    // Ambil semua digit dari voucher code
-                    String digits = voucherCode.replaceAll("[^0-9]", "");
-                    if (digits.length() == 8) {
-                        status = "SUCCESS";
-                    } else {
-                        status = "REJECTED";
-                    }
+                if (isValidVoucherCode(voucherCode)) {
+                    status = "SUCCESS";
                 } else {
                     status = "REJECTED";
                 }
             }
         }
+
         Payment payment = Payment.builder()
                 .paymentId(UUID.randomUUID().toString())
                 .paymentMethod(method)
@@ -44,6 +40,7 @@ public class PaymentServiceImpl implements PaymentService {
                 .build();
         return paymentRepository.save(payment);
     }
+
 
     @Override
     public Payment setStatus(Payment payment, String status) {
@@ -64,5 +61,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
+    }
+
+    private boolean isValidVoucherCode(String voucherCode) {
+        if (voucherCode.length() != 16 && !voucherCode.startsWith("ESHOP")) {
+            return false;
+        }
+        // Ambil semua digit dari voucher code
+        String digits = voucherCode.replaceAll("[^0-9]", "");
+        return digits.length() == 8;
     }
 }
